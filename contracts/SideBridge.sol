@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import { IERC20Child } from "./IERC20Child.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract SideBridge {
 
@@ -9,7 +9,7 @@ contract SideBridge {
     event TokensBridged(address indexed requester, bytes32 indexed mainDepositHash, uint amount, uint timestamp);
     event TokensReturned(address indexed requester, bytes32 indexed sideDepositHash, uint amount, uint timestamp);
     
-    IERC20Child private sideToken;
+    IERC20 private sideToken;
     bool bridgeInitState;
     address owner;
     address gateway;
@@ -21,7 +21,7 @@ contract SideBridge {
     }
 
     function initializeBridge (address _childTokenAddress) onlyOwner external {
-        sideToken = IERC20Child(_childTokenAddress);
+        sideToken = IERC20(_childTokenAddress);
         bridgeInitState = true;
     }
 
@@ -31,7 +31,7 @@ contract SideBridge {
     }
 
     function returnTokens (address _requester, uint _bridgedAmount, bytes32 _sideDepositHash) verifyInitialization onlyGateway external {
-        sideToken.burn(_bridgedAmount);
+        sideToken.burn(_requester,_bridgedAmount);
         emit TokensReturned(_requester, _sideDepositHash, _bridgedAmount, block.timestamp);
     }
 

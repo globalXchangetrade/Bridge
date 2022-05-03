@@ -1,0 +1,22 @@
+MainBridge
+
+event TokensLocked -->  event TokensSent
+event TokensUnlocked --> event TokensReceived
+
+function lockTokens --> function sendTokens 
+function unlockTokens --> function receiveTokens
+
+Table Name
+BscGettingTokens
+
+Side MainBridge
+
+event TokensBridged -->  event TokensReceived
+event TokensReturned --> event TokensSent
+
+function bridgeTokens --> function receiveTokens 
+function returnTokens --> function sendTokens
+
+Now, 
+
+BscTokenTransfers  --> BscTokenTransfers
